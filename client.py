@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Authors: Jason Teng
+Authors: Jason Teng, Seung Son
 2018-9-24
 
 This file contains the server code for CS 5700 Project 1

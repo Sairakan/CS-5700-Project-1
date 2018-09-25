@@ -1,0 +1,34 @@
+#!/usr/bin/bash
+
+p=27993
+s=
+
+while :; do
+	case $1 in
+		-h|-\?|--help)
+			show_help
+			exit
+			;;
+		-p)
+			if [ "$2" ]; then
+				p=$2
+				shift
+			else
+				die 'ERROR: "-p" requires a non-empty option argument.'
+			fi
+			;;
+		-s)
+			s="True"
+			;;
+		*)
+			break
+	esac
+	
+	shift
+done
+
+if [ "$s" = "True" ]; then
+	python client.py -p $p -s $1 $2
+else
+	python client.py -p $p $1 $2
+fi

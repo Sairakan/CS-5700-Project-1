@@ -6,7 +6,15 @@ Authors: Jason Teng
 This file contains the server code for CS 5700 Project 1
 """
 
-import socket, select
+import socket, select, argparse
+
+parser = argparse.ArgumentParser(description='Client script for Project 1.')
+parser.add_argument('-p', default=27993, help='which port to use (default: 27993)')
+parser.add_argument('-s', help='whether to use SSL (default: SSL off)')
+parser.add_argument('hostname', help='the hostname to connect to')
+parser.add_argument('NUID', help='the NUID of the student')
+
+args = parser.parse_args()
 
 # basic validation of start and end of message
 def isValid(message):
@@ -49,11 +57,11 @@ def handleMessage(message, s):
         
 
 # Connection Setup
-TCP_HOSTNAME = "cs5700f18.ccs.neu.edu"
-TCP_PORT = 27993
+TCP_HOSTNAME = args.hostname
+TCP_PORT = int(args.p)
 
 BUFFER_SIZE = 1024
-NUID = "001876580"
+NUID = args.NUID
 
 INITIAL_MESSAGE = "cs5700fall2018 HELLO " + NUID + "\n" 
 

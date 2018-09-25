@@ -39,7 +39,6 @@ def handleMessage(message, s):
         exit()
     elif message.find('STATUS') >= 0:
         result = solve(message)
-        print(result)
         s.send("cs5700fall2018 " + str(result) + "\n")
         return
     elif message.find('BYE') >= 0:
@@ -71,7 +70,6 @@ while True:
         exit()
     if len(readable) > 0:
         message = s.recv(2048)
-        print(message)
         handleMessage(message, s)
     else:
         print 'timeout'

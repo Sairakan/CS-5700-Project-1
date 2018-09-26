@@ -6,11 +6,11 @@ Authors: Jason Teng, Seung Son
 This file contains the server code for CS 5700 Project 1
 """
 
-import socket, select, argparse
+import socket, select, argparse, ssl
 
 parser = argparse.ArgumentParser(description='Client script for Project 1.')
 parser.add_argument('-p', default=27993, help='which port to use (default: 27993)')
-parser.add_argument('-s', help='whether to use SSL (default: SSL off)')
+parser.add_argument('-s', help='whether to use SSL (default: SSL off)', action="store_true")
 parser.add_argument('hostname', help='the hostname to connect to')
 parser.add_argument('NUID', help='the NUID of the student')
 
@@ -59,15 +59,23 @@ def handleMessage(message, s):
 # Connection Setup
 TCP_HOSTNAME = args.hostname
 TCP_PORT = int(args.p)
+SSL = args.s
 
 BUFFER_SIZE = 1024
 NUID = args.NUID
 
 INITIAL_MESSAGE = "cs5700fall2018 HELLO " + NUID + "\n" 
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((TCP_HOSTNAME, TCP_PORT))
-s.send(INITIAL_MESSAGE)
+if SSL:
+    context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    connection = context.wrap_socket(s, server_hostname=TCP_HOSTNAME)
+    connection.connect((TCP_HOSTNAME, TCP_PORT))
+    connection.send(INITIAL_MESSAGE)
+else:
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((TCP_HOSTNAME, TCP_PORT))
+    s.send(INITIAL_MESSAGE)
 
 # Event loop
 while True:

@@ -1,0 +1,22 @@
+Project 1 Writeup
+
+Authors: Jason Teng, Seung Son
+
+2018-9-27
+
+For this project, we chose to write our program in Python, due to the built-in
+modules in Python which allowed for relatively easy development. Originally,
+we planned to use the asyncore module to develop a complex, async-capable
+client to interface with the server, but there were difficulties in 
+implementing the asyncore module. After reviewing the project requirements,
+we determined that an asynchronous client was not necessary, and refactored
+the code to no longer use the asyncore module or implement any asynchronous
+handling. Instead, we use a simple iterative loop to receive the server 
+message, and then calculate a response and send it.
+
+One aspect of the project which required a considerable amount of effort was
+supporting the requirement for paramaterized arguments. In the python code,
+the implementation was rather simple using argparse, but we had little 
+experience with how to code bash scripts to support this feature. We found
+an extremely helpful example at http://mywiki.wooledge.org/BashFAQ/035, which
+we adapted into our own client bash script.

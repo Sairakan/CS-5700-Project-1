@@ -67,6 +67,7 @@ NUID = args.NUID
 INITIAL_MESSAGE = "cs5700fall2018 HELLO " + NUID + "\n" 
 
 if SSL:
+    TCP_PORT = 27994
     context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     connection = context.wrap_socket(s, server_hostname=TCP_HOSTNAME)

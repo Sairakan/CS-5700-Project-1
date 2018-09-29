@@ -68,11 +68,10 @@ INITIAL_MESSAGE = "cs5700fall2018 HELLO " + NUID + "\n"
 
 if SSL:
     TCP_PORT = 27994
-    context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    connection = context.wrap_socket(s, server_hostname=TCP_HOSTNAME)
-    connection.connect((TCP_HOSTNAME, TCP_PORT))
-    connection.send(INITIAL_MESSAGE)
+    wrappedSocket = ssl.wrap_socket(s, ssl_version=ssl.PROTOCOL_TLS)
+    wrappedSocket.connect((TCP_HOSTNAME, TCP_PORT))
+    wrappedSocket.send(INITIAL_MESSAGE)
 else:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((TCP_HOSTNAME, TCP_PORT))
@@ -89,4 +88,4 @@ while True:
         message = s.recv(2048)
         handleMessage(message, s)
     else:
-        print 'timeout'
+        print('timeout')

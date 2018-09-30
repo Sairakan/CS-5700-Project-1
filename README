@@ -15,8 +15,15 @@ handling. Instead, we use a simple iterative loop to receive the server
 message, and then calculate a response and send it.
 
 One aspect of the project which required a considerable amount of effort was
-supporting the requirement for paramaterized arguments. In the python code,
+supporting the requirement for parameterized arguments. In the python code,
 the implementation was rather simple using argparse, but we had little 
 experience with how to code bash scripts to support this feature. We found
 an extremely helpful example at http://mywiki.wooledge.org/BashFAQ/035, which
 we adapted into our own client bash script.
+
+With the parameterized arguments completed, we tried to add SSL support. 
+Modifying the argparse to return a boolean on <-s> for switching back and
+forth between using and not using SSL was simple enough, but
+wrapping the initial socket into an SSL Socket continually returned a
+certificate verification error or returned nothing from the server in the
+case that verification was bypassed.

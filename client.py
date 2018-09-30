@@ -69,7 +69,20 @@ INITIAL_MESSAGE = "cs5700fall2018 HELLO " + NUID + "\n"
 if SSL:
     TCP_PORT = 27994
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    wrappedSocket = ssl.wrap_socket(s, ssl_version=ssl.PROTOCOL_TLS)
+
+    #TODO
+    #As it is now, the code should return a certificate error.
+    #Basically, if you turn verification off, it will not return anything from the server.
+
+    #Monkeypatching. Bypasses certificate verification and removes error but doesn't return anything.
+    #ssl.create_default_context = ssl._create_unverified_context
+
+    context = ssl.create_default_context()
+    wrappedSocket = context.wrap_socket(s, server_hostname=TCP_HOSTNAME)
+    
+    #Replacing the two lines above this with this line will return no error but will return nothing. It's deprecated so I swapped it out.
+    #wrappedSocket = ssl.wrap_socket(s, ssl_version=ssl.PROTOCOL_TLS)
+    
     wrappedSocket.connect((TCP_HOSTNAME, TCP_PORT))
     wrappedSocket.send(INITIAL_MESSAGE)
 else:
